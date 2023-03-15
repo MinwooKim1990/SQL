@@ -164,3 +164,39 @@ UNION
 SELECT customer_id, payment_date, amount
 FROM payments
 WHERE payment_date BETWEEN '2022-01-01' AND '2022-03-31';
+
+-- Concatenations
+SELECT CompanyName, ContactName, CompanyName || ' ('|| ContactName||')'
+FROM customers
+
+-- Trimming Strings
+SELECT TRIM (" Your the best. ") AS TrimmedString;
+             
+-- Substring
+SELECT first_name, SUBSTR (first_name,2,3)
+FROM employees
+WHERE department_id=60;
+
+-- Upper and Lower
+SELECT UPPER(column_name)
+FROM table_name;
+
+SELECT LOWER(column_name)
+FROM table_name;
+
+SELECT UCASE(column_name)
+FROM table_name;
+
+-- Date Formats
+DATE = YYYY-MM-DD, DATETIME = YYYY-MM-DD HH:MI:SS, TIMESTAMP = YYYY-MM-DD HH:MI:SS
+SELECT Birthdate
+,STRFTIME('%Y', Birthdate) AS Year
+,STRFTIME('%m', Birthdate) AS Month
+,STRFTIME('%d', Birthdate) AS Day
+,DATE(('now') - Birthdate) AS Age
+FROM employees
+
+SELECT DATE('now')
+
+SELECT STRFTIME('%Y %m %d', 'now')
+
