@@ -97,6 +97,13 @@ FROM Customers C INNER JOIN Invoices I
 ON C.CustomerId = I.CustomerId
 GROUP BY C.CustomerId
 
+SELECT City,
+       COUNT(*)
+FROM Customers
+GROUP BY City
+ORDER BY COUNT(*) DESC
+
+
 -- Subqueries Adding that to the Where clause and processing the overall select statement. should have proper indentation.
 SELECT Customer_name, Customer_state, 
        (SELECT COUNT(*) AS orders 
@@ -147,6 +154,14 @@ JOIN order_details ON orders.order_id = order_details.order_id
 JOIN products ON order_details.product_id = products.product_id
 WHERE customers.country = 'USA';
 
+SELECT C.FirstName,
+       C.LastName,
+       I.InvoiceId,
+       C.FirstName || C.LastName || I.InvoiceID AS NewId
+FROM Customers C INNER JOIN Invoices I
+ON C.CustomerId = I.CustomerID
+WHERE NewId LIKE 'AstridGruber%'
+
 -- Union
 SELECT FirstName,
        LastName
@@ -169,6 +184,12 @@ WHERE payment_date BETWEEN '2022-01-01' AND '2022-03-31';
 SELECT CompanyName, ContactName, CompanyName || ' ('|| ContactName||')'
 FROM customers
 
+SELECT CustomerId,
+       FirstName || " " || LastName AS FullName,
+       Address,
+       UPPER(City || " " || Country) AS CityCountry
+FROM Customers
+
 -- Trimming Strings
 SELECT TRIM (" Your the best. ") AS TrimmedString;
              
@@ -176,6 +197,13 @@ SELECT TRIM (" Your the best. ") AS TrimmedString;
 SELECT first_name, SUBSTR (first_name,2,3)
 FROM employees
 WHERE department_id=60;
+
+SELECT FirstName,
+       LastName,
+       LOWER(SUBSTR(FirstName,1,4)) AS A,
+       LOWER(SUBSTR(LastName,1,2)) AS B,
+       LOWER(SUBSTR(FirstName,1,4)) || LOWER(SUBSTR(LastName,1,2)) AS userId
+FROM Employees
 
 -- Upper and Lower
 SELECT UPPER(column_name)
@@ -200,3 +228,17 @@ SELECT DATE('now')
 
 SELECT STRFTIME('%Y %m %d', 'now')
 
+SELECT FirstName,
+       LastName,
+       HireDate,
+       (STRFTIME('%Y', 'now') - STRFTIME('%Y', HireDate)) 
+          - (STRFTIME('%m-%d', 'now') < STRFTIME('%m-%d', HireDate)) 
+          AS YearsWorked
+FROM Employees
+WHERE YearsWorked >= 15
+ORDER BY LastName ASC
+
+-- Counting
+SELECT COUNT(*)
+FROM Customers
+WHERE Phone IS NULL;
